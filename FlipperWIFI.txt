@@ -72,3 +72,7 @@ STRING S
 ENTER
 STRING del A.zip & exit
 ENTER
+STRING y 
+ENTER
+STRING exit
+ENTER
